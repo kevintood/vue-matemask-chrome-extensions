@@ -19,7 +19,7 @@
     ],
     "persistent": false
   },
-  "options_page": "popup.html",
+  "options_page": "content.html",
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__",

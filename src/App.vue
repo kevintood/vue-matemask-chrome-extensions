@@ -4,13 +4,13 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-02 16:36:17
+ * @LastEditTime: 2021-08-03 16:01:56
 -->
 <template>
   <div id="app">
     dddd
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/home">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view />
