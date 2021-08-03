@@ -3,7 +3,8 @@
 node_modules
 /dist
 
-r.bat
+conf.dev.js
+conf.js
 
 
 # local env files

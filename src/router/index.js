@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-03 15:49:22
+ * @LastEditTime: 2021-08-03 16:21:18
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/home",
+    path: "/",
     name: "Home",
     component: Home
   },
@@ -24,8 +24,7 @@ const routes = [
     name: "About",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
-  },
-  { path: "*", redirect: "/home" }
+  }
 ];
 
 const router = new VueRouter({

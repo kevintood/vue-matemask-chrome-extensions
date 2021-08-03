@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "homepage_url": "http://localhost:8081/",
-  "description": "A Vue Browser Extension",
+  "homepage_url": "http://localhost:8080/",
+  "description": "xvxcvxcvsdfcsdcs",
   "default_locale": "en",
   "permissions": [
     "<all_urls>",
@@ -19,7 +19,7 @@
     ],
     "persistent": false
   },
-   "options_page": "content.html",
+   "options_page": "popup.html",
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__",
