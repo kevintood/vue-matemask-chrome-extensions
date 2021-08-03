@@ -1,5 +1,5 @@
 {
-  "name": "my-extension",
+  "name": "vue-matemask-chrome-extensions",
   "version": "0.1.0",
   "private": true,
   "scripts": {
