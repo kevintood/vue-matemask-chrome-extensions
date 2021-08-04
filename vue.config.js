@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-03 16:11:53
+ * @LastEditTime: 2021-08-04 10:33:51
  */
 
 const path = require("path");
@@ -28,10 +28,13 @@ module.exports = {
       title: "content"
     },
     index: {
-      // vue启动展示的页面，必须设置，否则页面不显示
-      template: "public/index.html",
-      entry: "./src/main.js",
-      title: "MetaMask"
+      template: "./src/popup/Popup.html",
+      entry: "./src/popup/Popup.js",
+      title: "Popup"
+      // // vue启动展示的页面，必须设置，否则页面不显示
+      // template: "public/index.html",
+      // entry: "./src/main.js",
+      // title: "MetaMask"
     }
   },
   chainWebpack: (config) => {

@@ -4,19 +4,20 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-03 16:21:18
+ * @LastEditTime: 2021-08-03 18:24:16
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "MetaMask",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/components/MetaMask.vue")
   },
 
   {

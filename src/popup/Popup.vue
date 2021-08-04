@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-03 14:17:33
+ * @LastEditTime: 2021-08-04 10:44:57
 -->
 <template>
   <MetaMask />
@@ -19,9 +19,4 @@ export default {
 };
 </script>
 
-<style>
-html {
-  width: 400px;
-  height: 400px;
-}
-</style>
+<style></style>
