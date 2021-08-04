@@ -4,20 +4,12 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-04 17:06:11
--->
-<!--
- * @Descripttion: 
- * @version: 
- * @Author: HFL
- * @Date: 2021-08-02 11:39:56
- * @LastEditors: HFL
- * @LastEditTime: 2021-08-04 15:27:37
+ * @LastEditTime: 2021-08-04 17:57:45
 -->
 <template>
   <div class="contain-metamask">
     <el-row :gutter="12" class="row-header">
-      <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10">
+      <el-col :xs="7" :sm="7" :md="7" :lg="7" :xl="7">
         <el-image
           style="height: 32px"
           fit="scale-down"
@@ -31,7 +23,7 @@
           :src="require(`@/assets/images/metamask-logo-horizontal.svg`)"
         ></el-image>
       </el-col>
-      <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14">
+      <el-col :xs="17" :sm="17" :md="17" :lg="17" :xl="17">
         <el-popover
           placement="bottom-end"
           trigger="click"
@@ -77,7 +69,7 @@
                 </template>
               </el-table-column>
             </el-table>
-
+            <el-divider></el-divider>
             <el-table
               max-height="190"
               row-class-name="default-row"
@@ -144,6 +136,7 @@
         </el-select>
       </el-col>
     </el-row>
+
     <el-row :gutter="12" class="row-body" v-if="!windowHash">
       <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
         <el-card class="box-card">
@@ -256,18 +249,22 @@
     </el-row>
 
     <el-row :gutter="12" class="row-body" v-if="windowHash === '#add-token'">
-      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24"> add token </el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+        <addToken></addToken>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import addToken from "@/components/AddToken";
 import chainsList from "@/assets/json/chains.json";
 import { version } from "@/api/user";
 import { copyText } from "@/utils/copyText";
 var jazzicon = require("@metamask/jazzicon");
 export default {
   name: "MetaMask",
+  components: { addToken },
   data() {
     return {
       windowHash: "",
@@ -282,57 +279,35 @@ export default {
         { icon: "el-icon-download", action: "Import Account" },
         { icon: "el-icon-connection", action: "Connect Hardware Wallet" }
       ],
-      gridData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ],
       user: {
         name: "账户 2",
         eth: 0,
-        address: "0x51Fc…17E4",
-        address2: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17E4"
+        address: "0x51Fc…17ER",
+        address2: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17ER"
       },
       addressList: [
         {
           name: "Account 1",
-          address: "0x67e0…583B",
-          address2: "0x67e0E2EF7B56cC472B80112AC81849703766583B",
+          address: "0x67e0…5823",
+          address2: "0x67e0E2EF7B56cC472B80112AC818497037665823",
           eth: 0.00001
         },
         {
           name: "账户 2",
-          address: "0x51Fc…17E4",
-          address2: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17E4",
-          eth: 0.00002
+          address: "0x51Fc…17ER",
+          address2: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17ER",
+          eth: 0
         },
         {
           name: "账户 3",
-          address: "0x7111…C0fA",
-          address2: "0x7111A448f8d68D223f69447Cc56b3145a5BDC0fA",
+          address: "0x7111…C0fd",
+          address2: "0x7111A448f8d68D223f69447Cc56b3145a5BDC0fd",
           eth: 0.00003
         },
         {
           name: "账户 4",
-          address: "0xAaD2…5100",
-          address2: "0xAaD2be298d0Ab902E759b239932B1cAaF21d5100",
+          address: "0xAaD2…5111",
+          address2: "0xAaD2be298d0Ab902E759b239932B1cAaF21d5111",
           eth: 0.00004
         }
       ],
@@ -366,7 +341,6 @@ export default {
       return browser.i18n.getMessage("extName");
     }
   },
-  watch: {},
   methods: {
     addToken() {
       location.hash = "add-token";
@@ -418,7 +392,7 @@ export default {
     },
 
     copyText(text) {
-      copyText(text);
+      copyText(text, "Copied!");
     },
     getMetaMaskAccount(address, idName) {
       // 钱包地址生成图片
@@ -527,6 +501,7 @@ export default {
 .contain-metamask {
   margin: 0 auto;
   width: 100%;
+  min-width: 360px;
 }
 .svg-icon {
   width: 1em;
