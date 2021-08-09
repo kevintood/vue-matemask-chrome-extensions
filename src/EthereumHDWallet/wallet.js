@@ -4,10 +4,10 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-09 12:12:36
+ * @LastEditTime: 2021-08-09 15:31:01
  */
 import Vue from "vue";
-import Popup from "./Popup.vue";
+import Popup from "./wallet.vue";
 import ElementUI from "element-ui";
 import router from "@/router";
 import store from "@/store";

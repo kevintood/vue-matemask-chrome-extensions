@@ -1,0 +1,25 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: HFL
+ * @Date: 2021-08-02 11:39:56
+ * @LastEditors: HFL
+ * @LastEditTime: 2021-08-09 15:30:23
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <% if(process.env.NODE_ENV === 'development') { %>
+    <script src="/conf.dev.js"></script>
+    <% } %> <% if(process.env.NODE_ENV === 'production') { %>
+    <script src="/conf.js"></script>
+    <% } %>
+  </head>
+  <body>
+    <div id="popup"></div>
+  </body>
+</html>

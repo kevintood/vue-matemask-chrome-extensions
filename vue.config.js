@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-04 10:33:51
+ * @LastEditTime: 2021-08-09 19:01:41
  */
 
 const path = require("path");
@@ -28,9 +28,14 @@ module.exports = {
       title: "content"
     },
     index: {
+      // 扩展程序
       template: "./src/popup/Popup.html",
       entry: "./src/popup/Popup.js",
       title: "Popup"
+      // 钱包
+      // template: "./src/EthereumHDWallet/wallet.html",
+      // entry: "./src/EthereumHDWallet/wallet.js",
+      // title: "wallet"
       // // vue启动展示的页面，必须设置，否则页面不显示
       // template: "public/index.html",
       // entry: "./src/main.js",

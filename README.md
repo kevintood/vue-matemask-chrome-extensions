@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 
- * @version: 
- * @Author: HFL
- * @Date: 2021-08-03 14:55:40
- * @LastEditors: HFL
- * @LastEditTime: 2021-08-04 18:44:46
--->
+
 # vue-matemask-chrome-extensions
 vue技术创建chrome浏览器扩展程序-模仿钱包metamask
 
@@ -29,3 +22,4 @@ $ npm run build
 
 
 ![vue-matemask](https://github.com/1648045459/public-file/blob/main/image/vue-matemask.gif?raw=true)
+

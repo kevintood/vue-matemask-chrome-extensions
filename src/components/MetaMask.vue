@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-04 17:57:45
+ * @LastEditTime: 2021-08-09 11:31:07
 -->
 <template>
   <div class="contain-metamask">
@@ -41,6 +41,7 @@
               </el-button>
             </div>
             <el-divider></el-divider>
+            <!-- address list -->
             <el-table
               max-height="190"
               :data="addressList"
@@ -55,7 +56,7 @@
                     @click.native.stop="onCheckAddress(scope.row)"
                   >
                     <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
-                      <i :id="scope.row.address2"> </i>
+                      <i :id="scope.row.address"> </i>
                     </el-col>
                     <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                       <div style="margin-left: 10px; font-size: 18px">
@@ -70,6 +71,7 @@
               </el-table-column>
             </el-table>
             <el-divider></el-divider>
+            <!-- create address -->
             <el-table
               max-height="190"
               row-class-name="default-row"
@@ -79,7 +81,10 @@
             >
               <el-table-column label="日期" width="320">
                 <template slot-scope="scope">
-                  <div class="account-action">
+                  <div
+                    class="account-action"
+                    @click="onAddressAction(scope.row.action)"
+                  >
                     <i :class="scope.row.icon"></i>
                     <span> {{ scope.row.action }}</span>
                   </div>
@@ -87,6 +92,7 @@
               </el-table-column>
             </el-table>
             <el-divider></el-divider>
+            <!-- metamask setting -->
             <el-table
               row-class-name="default-row"
               max-height="190"
@@ -146,9 +152,11 @@
             style="text-align: center; position: relative"
           >
             <el-tooltip content="Copy to clipboard" placement="bottom">
-              <el-button type="text" @click="copyText(user.address2)">
+              <el-button type="text" @click="copyText(user.address)">
                 <div class="user-name">{{ user.name }}</div>
-                <div class="user-address">{{ user.address }}</div>
+                <div class="user-address">
+                  {{ user.address | formarAddress() }}
+                </div>
               </el-button>
             </el-tooltip>
             <el-button
@@ -168,23 +176,50 @@
             <div style="text-align: center; font-size: 2rem; margin: 20px">
               {{ user.eth }} ETH
             </div>
-            <div style="text-align: center">
-              <el-button
-                type="primary"
-                icon="el-icon-download"
-                circle
-              ></el-button>
-              <el-button
-                type="primary"
-                icon="el-icon-top-right"
-                circle
-              ></el-button>
-              <el-button
-                type="primary"
-                disabled
-                icon="el-icon-sort"
-                circle
-              ></el-button>
+            <div style="margin: 0 auto; width: 180px">
+              <el-row :gutter="12">
+                <el-col
+                  :xs="8"
+                  :sm="8"
+                  :md="8"
+                  :lg="8"
+                  :xl="8"
+                  style="text-align: center"
+                >
+                  <el-button type="primary" icon="el-icon-download" circle>
+                  </el-button>
+                  <div class="buttons-bottom-text">Buy</div>
+                </el-col>
+                <el-col
+                  :xs="8"
+                  :sm="8"
+                  :md="8"
+                  :lg="8"
+                  :xl="8"
+                  style="text-align: center"
+                >
+                  <el-button
+                    type="primary"
+                    icon="el-icon-top-right"
+                    @click="onSend"
+                    circle
+                  >
+                  </el-button>
+                  <div class="buttons-bottom-text">Send</div>
+                </el-col>
+                <el-col
+                  :xs="8"
+                  :sm="8"
+                  :md="8"
+                  :lg="8"
+                  :xl="8"
+                  style="text-align: center"
+                >
+                  <el-button type="primary" disabled icon="el-icon-sort" circle>
+                  </el-button>
+                  <div class="buttons-bottom-text">Swap</div>
+                </el-col>
+              </el-row>
             </div>
             <div>
               <el-tabs :stretch="true" v-model="tabActive">
@@ -253,10 +288,23 @@
         <addToken></addToken>
       </el-col>
     </el-row>
+
+    <el-row :gutter="12" class="row-body" v-if="windowHash === '#send'">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+        <send :database="addressList"></send>
+      </el-col>
+    </el-row>
+    <el-row :gutter="12" class="row-body" v-if="windowHash === '#new-account'">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+        <NewAccount @onCreateAccount="onCreateAccount"></NewAccount>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import NewAccount from "@/components/NewAccount";
+import send from "@/components/Send";
 import addToken from "@/components/AddToken";
 import chainsList from "@/assets/json/chains.json";
 import { version } from "@/api/user";
@@ -264,7 +312,7 @@ import { copyText } from "@/utils/copyText";
 var jazzicon = require("@metamask/jazzicon");
 export default {
   name: "MetaMask",
-  components: { addToken },
+  components: { addToken, send, NewAccount },
   data() {
     return {
       windowHash: "",
@@ -282,34 +330,29 @@ export default {
       user: {
         name: "账户 2",
         eth: 0,
-        address: "0x51Fc…17ER",
-        address2: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17ER"
+        address: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17ER"
       },
       addressList: [
         {
           name: "Account 1",
-          address: "0x67e0…5823",
-          address2: "0x67e0E2EF7B56cC472B80112AC818497037665823",
-          eth: 0.00001
+          address: "0x67e0E2EF7B56cC472B80112AC818497037665823",
+          eth: 1
         },
         {
           name: "账户 2",
-          address: "0x51Fc…17ER",
-          address2: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17ER",
+          address: "0x51Fc47eBd6BC38820bED51fac62350E2B0AC17ER",
           eth: 0
-        },
-        {
-          name: "账户 3",
-          address: "0x7111…C0fd",
-          address2: "0x7111A448f8d68D223f69447Cc56b3145a5BDC0fd",
-          eth: 0.00003
-        },
-        {
-          name: "账户 4",
-          address: "0xAaD2…5111",
-          address2: "0xAaD2be298d0Ab902E759b239932B1cAaF21d5111",
-          eth: 0.00004
         }
+        // {
+        //   name: "账户 3",
+        //   address: "0x7111A448f8d68D223f69447Cc56b3145a5BDC0fd",
+        //   eth: 2
+        // },
+        // {
+        //   name: "账户 4",
+        //   address: "0xAaD2be298d0Ab902E759b239932B1cAaF21d5111",
+        //   eth: 3
+        // }
       ],
       versionText: "",
       activeIndex: "1",
@@ -332,7 +375,7 @@ export default {
     version().then((res) => {
       _this.versionText = res;
     });
-    _this.getMetaMaskAccount(_this.user.address2, "avatar-accounts");
+    _this.getMetaMaskAccount(_this.user.address, "avatar-accounts");
 
     window.onhashchange = _this.hashChangeFire(); // TODO，对应新的hash执行的操作函数
   },
@@ -342,6 +385,36 @@ export default {
     }
   },
   methods: {
+    onCreateAccount(account, createAccountInfo) {
+      location.hash = "";
+      console.log(account, createAccountInfo);
+      let newUser = {
+        name: createAccountInfo.accountName,
+        address: account.address,
+        privateKey: account.privateKey,
+        eth: 0,
+        keystore: this.$web3.eth.accounts.encrypt(account.privateKey, "123456")
+      };
+      this.addressList.push(newUser);
+      this.user = newUser;
+      this.removeChild("avatar-accounts");
+      this.getMetaMaskAccount(account.address, "avatar-accounts");
+    },
+    onAddressAction(action) {
+      if (action === "Create Account") {
+        console.log(action);
+        this.isShowPopover = false;
+        location.hash = "new-account";
+      } else if (action === "Import Account") {
+        console.log(action);
+      } else {
+        console.log(action);
+      }
+    },
+    onSend() {
+      location.hash = "send";
+      window.onhashchange = this.hashChangeFire();
+    },
     addToken() {
       location.hash = "add-token";
       window.onhashchange = this.hashChangeFire();
@@ -350,7 +423,7 @@ export default {
       this.windowHash = window.location.hash;
     },
     tableRowClassName({ row }) {
-      if (row.address2 === this.user.address2) {
+      if (row.address === this.user.address) {
         return "success-row";
       }
       return "default-row";
@@ -359,20 +432,20 @@ export default {
       // 更新账号
       this.user = item;
       this.removeChild("avatar-accounts");
-      this.getMetaMaskAccount(this.user.address2, "avatar-accounts");
+      this.getMetaMaskAccount(this.user.address, "avatar-accounts");
       this.isShowPopover = false;
     },
     showPopover() {
       // 获取所有账号的头像
       for (let index = 0; index < this.addressList.length; index++) {
-        let obj = this.addressList[index].address2;
+        let obj = this.addressList[index].address;
         this.getMetaMaskAccount(obj, obj);
       }
     },
     hidePopover() {
       // 删除所有账号的头像数据
       for (let index = 0; index < this.addressList.length; index++) {
-        let obj = this.addressList[index].address2;
+        let obj = this.addressList[index].address;
         this.removeChild(obj);
       }
     },
@@ -411,6 +484,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.buttons-bottom-text {
+  font-size: 13px;
+  color: #409eff;
+}
 .address-eth {
   margin-left: 10px;
   font-size: 14px;

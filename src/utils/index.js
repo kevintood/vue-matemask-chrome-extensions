@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-03 18:43:58
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-03 18:44:41
+ * @LastEditTime: 2021-08-06 17:46:17
  */
 /**
  * @name: 16进制转化为10进制整数
@@ -31,4 +31,13 @@ export function hex2int(hex) {
     acc = 16 * acc + c;
     return acc;
   }, 0);
+}
+/**
+ * @Descripttion: 格式话钱包地址
+ * @param {*} address
+ * @return {*}
+ */
+export function formarAddress(address) {
+  if (!address) return "";
+  return address.substr(0, 6) + "…" + address.substr(address.length - 4);
 }
