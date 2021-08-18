@@ -4,7 +4,7 @@
  * @Author: HFL
  * @Date: 2021-08-02 11:39:56
  * @LastEditors: HFL
- * @LastEditTime: 2021-08-03 18:24:16
+ * @LastEditTime: 2021-08-18 18:48:58
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -12,21 +12,7 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "MetaMask",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "@/components/MetaMask.vue")
-  },
-
-  {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
-];
+const routes = [];
 
 const router = new VueRouter({
   mode: "history",
